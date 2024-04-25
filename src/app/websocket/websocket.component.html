@@ -1,0 +1,52 @@
+<div class="grid">
+    <div class="col-12">
+        <p-table #dt1 [value]="websockests" styleClass="p-datatable-sm" dataKey="id"  [scrollable]="true" scrollHeight="80vh"
+            [globalFilterFields]="['name','node','port','']" >
+          
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" style="width: 350px;" (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Search keyword( name, node, port )" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th  pSortableColumn="node"> Node <p-sortIcon field="code"></p-sortIcon></th>
+                    <th  pSortableColumn="name"> Name <p-sortIcon field="code"></p-sortIcon></th>
+                    <th> CID </th>
+                    <th> Type </th>
+                    <th> IP </th>
+                    <th> Port </th>
+                    <th> Start </th>
+                    <th> Last Activity </th>
+                    <th> Uptime </th>
+                    <th> Idle </th>
+                    <th> In Msgs </th>
+                    <th> Out Msgs </th>
+                    <th style="color: cornflowerblue;"> In Bytes </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-ws>
+                <tr [ngStyle]="{'color':ws.node=='node 1' ? 'green' : 'cornflowerblue'}">
+                    <td>{{ws.node}}</td>
+                    <td>{{ws.name}}</td>
+                    <td>{{ws.cid}}</td>
+                    <td>{{ws.type}}</td>
+                    <td>{{ws.ip}}</td>
+                    <td>{{ws.port}}</td>
+                    <td>{{ws.start | date:'dd.MM.yyyy HH:mm:ss z'}}</td>
+                    <td>{{ws.last_activity | date:'dd.MM.yyyy HH:mm:ss z'}}</td>
+                    <td>{{ws.uptime}}</td>
+                    <td>{{ws.idle}}</td>
+                    <td>{{ws.in_msgs}}</td>
+                    <td>{{ws.out_msgs}}</td>
+                    <td>{{ws.in_bytes}}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary"><b>{{websockests.length}} connections </b>  </ng-template>
+        </p-table>
+    </div>
+</div>

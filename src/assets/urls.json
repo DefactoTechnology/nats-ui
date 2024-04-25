@@ -1,0 +1,8 @@
+
+[
+    { "text": "Choose Environmet", "url": "" },
+    { "text": "test","url": "http://localhost:8222/streaming"},
+    { "text": "prod","url": "http://localhost:8223/streaming" },
+    { "text": "uat","url": "http://localhost:8224/streaming" },
+    { "text": "rc","url": ""}
+]

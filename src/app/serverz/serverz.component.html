@@ -1,0 +1,56 @@
+<div class="grid">
+    <div class="col-3">
+      <p-card [style]="{'margin-bottom': '1em'}" >
+        <p-dropdown [options]="natsUrls" [(ngModel)]="natsUrl" optionLabel="text" (onChange)="onChange($event)" 
+          [style]="{'width':'100%'}"></p-dropdown>
+         
+        <p-divider align="left">
+          <div class="inline-flex align-items-center" style="color: rgb(0, 66, 128);">
+            <i class="fa-brands fa-hubspot" style="margin-right: 5px;"></i>
+            <b> Server Info</b>
+          </div>
+        </p-divider>
+        <div class="grid">
+          <div class="col-3">Cluster Id</div>
+          <div class="col-9">: <b>{{serverz.cluster_id}}</b></div>
+          <div class="col-3">Server Id</div>
+          <div class="col-9">: <b>{{serverz.server_id}}</b></div>
+          <div class="col-3">Now</div>
+          <div class="col-9">: <b> {{ serverz.now | date:'dd.MM.yyyy HH:mm:ss  z' }}</b></div>
+          <div class="col-3">Version</div>
+          <div class="col-9">: <b>{{serverz.version}}</b></div>
+          <div class="col-3">Go Version</div>
+          <div class="col-9">: <b>{{serverz.go}}</b></div>
+          <div class="col-3">Start Time</div>
+          <div class="col-9">: <b>{{serverz.start_time | date:'dd.MM.yyyy HH:mm:ss  z'}}</b></div>
+          <div class="col-3">Up Time</div>
+          <div class="col-9">: <b>{{serverz.uptime}}</b></div>
+        </div>
+      </p-card>
+    </div>
+    <div class="col-9">
+      <div class="grid" *ngIf="serverz.channels" >
+        <div class="col-3">
+            <p-card header="Channels">
+               <span style="font-size: x-large;">{{serverz.channels}}</span> 
+            </p-card>
+        </div>
+        <div class="col-3">
+            <p-card header="Subscriptions" >
+                <span style="font-size: x-large;">{{serverz.subscriptions}}</span>
+            </p-card>
+        </div>
+        <div class="col-3">
+            <p-card header="Total Messages" >
+                <span style="font-size: x-large;">{{serverz.total_msgs}}</span>
+            </p-card>
+        </div>
+        <div class="col-3">
+            <p-card header="Total Bytes" >
+                <span style="font-size: x-large;">{{serverz.total_bytes}}</span>
+            </p-card>
+        </div>
+      </div>
+    </div>
+  </div>
+

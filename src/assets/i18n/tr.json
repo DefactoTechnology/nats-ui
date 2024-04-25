@@ -1,0 +1,21 @@
+{
+    "queue_name":"queue group ismi",
+    "max_inflight":"subscriber'a ack mesajı beklemeden (işlenmemiş) gönderilebilecek max mesaj sayısı",
+    "pending_count":"subscriber'a gönderilmiş, bekleyen işlenmemiş mesaj sayısı",
+    "ack_wait":"ack mesaj timeout'u",
+    "last_sent":"subscriber'a son gönderilen mesajın sırası",
+    "is_drable":"durable olup olmadığı",
+    "version":"nats-streaming versiyon",
+    "msgs": "kuyrukta yer alan toplam mesaj sayısı",
+    "bytes" : "toplam mesaj boyutu",
+    "first_seq" :"kuyrukta yer alan ilk mesajın kuyruk create edildiği zamandan itibaren sırası",
+    "last_seq" :"kuyrukta yer alan son mesajın kuyruk create edildiği zamandan itibaren sırası",
+    "subs_count":"subscriber sayısı",
+    "max_channels": "global channel limitlerini verir. Channel bazlı değiştirilebilir.",
+    "max_msgs":"channel başı max msg sayısı",
+    "max_bytes":"channel başı toplam mesaj boyutu",
+    "max_age":"mesaj durma süresi",
+    "max_subscriptions":"channel başı subscription sayısını verir",
+    "max_inactivity":"channel'ın silinmes süresini verir. 1h girildiğinde, 1h içinde hiç subscribe olan yoksa ve mesaj içermiyorsa silinir.",
+    "is_offline":"offline olup olmadığı"
+}

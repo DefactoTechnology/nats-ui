@@ -1,0 +1,78 @@
+<div class="grid">
+  <div class="col-3">
+    <p-card [style]="{'margin-bottom': '1em'}">
+      <p-dropdown [options]="natsUrls" [(ngModel)]="natsUrl" optionLabel="text" (onChange)="onChange($event)"
+        [style]="{'width':'100%'}"></p-dropdown>
+
+      <p-divider align="left">
+        <div class="inline-flex align-items-center" style="color: rgb(0, 66, 128);">
+          <i class="fa-brands fa-hubspot" style="margin-right: 5px;"></i>
+          <b> Server Info</b>
+        </div>
+      </p-divider>
+      <div class="grid">
+        <div class="col-3">Cluster Id</div>
+        <div class="col-9">: <b>{{storez.cluster_id}}</b></div>
+        <div class="col-3">Server Id</div>
+        <div class="col-9">: <b>{{storez.server_id}}</b></div>
+        <div class="col-3">Now</div>
+        <div class="col-9">: <b> {{ storez.now | date:'dd.MM.yyyy HH:mm:ss z' }}</b></div>
+        <div class="col-3">Type</div>
+        <div class="col-9">: <b>{{storez.type}}</b></div>
+        <div class="col-3">Total Msgs</div>
+        <div class="col-9">: <b>{{storez.total_msgs}}</b></div>
+        <div class="col-3">Total Byts</div>
+        <div class="col-9">: <b>{{storez.total_bytes}}</b></div>
+      </div>
+    </p-card>
+  </div>
+  <div class="col-4" *ngIf="storez.limits.max_channels">
+    <p-card [style]="{'margin-bottom': '1em'}">
+      <div class="grid">
+        <div class="col-3"><span pTooltip="{{'max_channels' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Channels</div>
+        <div class="col-9">: <b>{{storez.limits.max_channels}}</b></div>
+        <div class="col-3"><span pTooltip="{{'max_msgs' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Msgs</div>
+        <div class="col-9">: <b>{{storez.limits.max_msgs}} </b></div>
+        <div class="col-3"><span pTooltip="{{'max_bytes' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Bytes</div>
+        <div class="col-9">: <b> {{storez.limits.max_bytes}}</b></div>
+        <div class="col-3"><span pTooltip="{{'max_age' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Age</div>
+        <div class="col-9">: <b>{{storez.limits.max_age}}</b></div>
+        <div class="col-3"><span pTooltip="{{'max_subscriptions' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Subs.</div>
+        <div class="col-9">: <b>{{storez.limits.max_subscriptions}}</b></div>
+        <div class="col-3"><span pTooltip="{{'max_inactivity' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max İnactivity</div>
+        <div class="col-9">: <b>{{storez.limits.max_inactivity}}</b></div>
+      </div>
+    </p-card>
+  </div>
+</div>
+<div>
+  <div class="card" *ngIf="namedStorezChannels">
+    <p-table [value]="namedStorezChannels" [scrollable]="true" scrollHeight="400px" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="caption">
+            <div class="table-header">
+                <b>Configured Channels</b>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Channel Name</th>
+                <th><span pTooltip="{{'max_msgs' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Msgs</th>
+                <th><span pTooltip="{{'max_bytes' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Bytes</th>
+                <th><span pTooltip="{{'max_age' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Age</th>
+                <th><span pTooltip="{{'max_subscriptions' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Subs</th>
+                <th><span pTooltip="{{'max_inactivity' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max İnactivity</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.namedChannel.max_msgs}}</td>
+                <td>{{item.namedChannel.max_bytes}}</td>
+                <td>{{item.namedChannel.max_age}}</td>
+                <td>{{item.namedChannel.max_subscriptions}}</td>
+                <td>{{item.namedChannel.max_inactivity}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+  </div>
+</div>

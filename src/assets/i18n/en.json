@@ -1,0 +1,21 @@
+{
+    "queue_name": "Queue Group Name",
+    "max_inflight": "Maximum number of unacknowledged messages that can be sent to subscriber",
+    "pending_count": "Number of unprocessed messages sent to subscriber",
+    "ack_wait": "Acknowledgment message timeout",
+    "last_sent": "Sequence of the last message sent to subscriber",
+    "is_drable": "Whether it is durable or not",
+    "version": "NATS-Streaming Version",
+    "msgs": "Total number of messages in the queue",
+    "bytes": "Total message size",
+    "first_seq": "Sequence of the first message in the queue since the queue was created",
+    "last_seq": "Sequence of the last message in the queue since the queue was created",
+    "subs_count": "Number of subscribers",
+    "max_channels": "Provides global channel limits. Can be changed on a per-channel basis.",
+    "max_msgs": "Maximum number of messages per channel",
+    "max_bytes": "Total message size per channel",
+    "max_age": "Message retention time",
+    "max_subscriptions": "Provides the number of subscriptions per channel",
+    "max_inactivity": "Provides the time for channel deletion. When 1h is entered, if no one subscribes within 1 hour and the channel does not contain any messages, it will be deleted.",
+    "is_offline": "Whether it is offline or not"
+}

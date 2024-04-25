@@ -1,0 +1,160 @@
+
+<p-message severity="warn" text="{{alertMsg}}" *ngIf="alertMsg" styleClass="p-mr-2 mb-2 " [style]="{'width':'100%','font-weight':'bold'}"></p-message>  
+<div class="grid">
+  <div class="col-3">
+    <p-card [style]="{'margin-bottom': '1em'}" >
+      <p-dropdown [options]="natsUrls" [(ngModel)]="natsUrl" optionLabel="text" (onChange)="urlChange($event)" 
+        [style]="{'width':'100%'}"></p-dropdown>
+      <p-divider align="left">
+        <div class="inline-flex align-items-center" style="color: rgb(0, 66, 128);">
+          <i class="fa-brands fa-hubspot" style="margin-right: 5px;"></i>
+          <b> Channelz Info</b>
+        </div>
+      </p-divider>
+      <div class="grid">
+        <div class="col-3">Cluster Id</div>
+        <div class="col-9">: <b>{{channelz.cluster_id}}</b></div>
+        <div class="col-3">Server Id</div>
+        <div class="col-9">: <b>{{channelz.server_id}}</b></div>
+        <div class="col-3">Now</div>
+        <div class="col-9">: <b> {{ channelz.now | date:'dd.MM.yyyy HH:mm:ss  z' }}</b></div>
+        <div class="col-3">Offset</div>
+        <div class="col-9">: <b>{{channelz.offset}}</b></div>
+        <div class="col-3">Limit</div>
+        <div class="col-9">: <b>{{channelz.limit}}</b></div>
+        <div class="col-3">Count</div>
+        <div class="col-9">: <b>{{channelz.count}}</b></div>
+        <div class="col-3">Total</div>
+        <div class="col-9">: <b>{{channelz.total}}</b></div>
+      </div>
+    </p-card>
+    <p-listbox [options]="channelz.channels" [(ngModel)]="selectedChannel" [filter]="true" optionLabel="desc" 
+      (onChange)="onChangeChannel($event)" [listStyle]="{'max-height':'35vh','width':'100%'}">
+      <ng-template pTemplate="header">
+        <span style="color: rgb(0, 66, 128);"> <i class="fa-solid fa-tower-cell"></i> <b> Channels</b></span>
+      </ng-template>
+    </p-listbox>
+  </div>
+  <div class="col-9" *ngIf="selectedChannel.name">
+    <div class="grid">
+      <div class="col-6">
+        <p-panel [toggleable]="true" >
+          <ng-template pTemplate="header">
+            <i class="fa-solid fa-check-double" style="margin-right: 5px;"></i> <b>Selected Channel Info </b>
+          </ng-template>
+          <div class="grid">
+            <div class="col-6">
+               <p-splitButton label="Channel Monitoring" icon="fa-solid fa-satellite-dish"
+                  styleClass="p-button-sm mr-2" (onClick)="startTimer()" [model]="this.items"></p-splitButton>
+                <p-button icon="fa-regular fa-circle-xmark" *ngIf="timerStopVisible" class="p-button-danger" 
+                  styleClass="p-button-sm p-button-danger" (onClick)="stopTimer()"> </p-button> 
+                  
+            </div>
+            <div class="col-6">
+              <p-progressBar mode="indeterminate"  [style]="{'height': '6px','margin-top':'10px'}" *ngIf="timerStopVisible"></p-progressBar>
+            </div>
+            <div class="col-3"><i class="fa-solid fa-circle-info"></i> Name</div>
+            <div class="col-9">: <b>{{selectedChannel.name}}</b></div>
+            <div class="col-3"><span pTooltip="{{'msgs' | translate }}"><i class="fa-solid fa-circle-info"></i> Msgs</span> </div>
+            <div class="col-9">: <b>{{selectedChannel.msgs}}</b></div>
+            <div class="col-3"><span pTooltip="{{'bytes' | translate }}"><i class="fa-solid fa-circle-info"></i>  Bytes</span></div>
+            <div class="col-9">: <b>{{selectedChannel.bytes}}</b></div>
+            <div class="col-3"><span pTooltip="{{'first_seq' | translate }}"><i class="fa-solid fa-circle-info"></i> First Seq</span></div>
+            <div class="col-9">: <b>{{selectedChannel.first_seq}}</b></div>
+            <div class="col-3"><span pTooltip="{{'last_seq' | translate }}"><i class="fa-solid fa-circle-info"></i> Last Seq</span></div>
+            <div class="col-9" style="color:rgb(14, 124, 0)">: <b>{{selectedChannel.last_seq}}</b></div>
+            <div class="col-3"><span pTooltip="{{'subs_count' | translate }}"><i class="fa-solid fa-circle-info"></i> Subs Count</span></div>
+            <div class="col-9">: <b>{{selectedChannel.subs_count}}</b></div>
+          </div>
+        </p-panel>
+      </div>
+      <div class="col-4">
+        <p-panel [toggleable]="true" >
+          <ng-template pTemplate="header">
+            <i class="fa-solid fa-check-double" style="margin-right: 5px;"></i> <b>Channel Limits </b>
+          </ng-template>
+          <div class="grid" *ngIf="IsChannelConfigured(selectedChannel.name); else elseBlock">
+            <div class="col-3"><span pTooltip="{{'max_msgs' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Msgs</div>
+            <div class="col-9">: <b>{{getStorezChannelByChannelName(selectedChannel.name)?.namedChannel?.max_msgs}} </b></div>
+            <div class="col-3"><span pTooltip="{{'max_bytes' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Bytes</div>
+            <div class="col-9">: <b> {{getStorezChannelByChannelName(selectedChannel.name)?.namedChannel?.max_bytes}}</b></div>
+            <div class="col-3"><span pTooltip="{{'max_age' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Age</div>
+            <div class="col-9">: <b>{{getStorezChannelByChannelName(selectedChannel.name)?.namedChannel?.max_age}}</b></div>
+            <div class="col-3"><span pTooltip="{{'max_subscriptions' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Subs.</div>
+            <div class="col-9">: <b>{{getStorezChannelByChannelName(selectedChannel.name)?.namedChannel?.max_subscriptions}}</b></div>
+            <div class="col-3"><span pTooltip="{{'max_inactivity' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max İnactivity</div>
+            <div class="col-9">: <b>{{getStorezChannelByChannelName(selectedChannel.name)?.namedChannel?.max_inactivity}}</b></div>
+          </div>
+          <ng-template #elseBlock>
+            <div class="grid">
+              <div class="col-3"><span pTooltip="{{'max_msgs' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Msgs</div>
+              <div class="col-9">: <b>{{storez.limits.max_msgs}} </b></div>
+              <div class="col-3"><span pTooltip="{{'max_bytes' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Bytes</div>
+              <div class="col-9">: <b> {{storez.limits.max_bytes}}</b></div>
+              <div class="col-3"><span pTooltip="{{'max_age' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Age</div>
+              <div class="col-9">: <b>{{storez.limits.max_age}}</b></div>
+              <div class="col-3"><span pTooltip="{{'max_subscriptions' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Subs.</div>
+              <div class="col-9">: <b>{{storez.limits.max_subscriptions}}</b></div>
+              <div class="col-3"><span pTooltip="{{'max_inactivity' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max İnactivity</div>
+              <div class="col-9">: <b>{{storez.limits.max_inactivity}}</b></div>
+            </div>
+          </ng-template>
+        </p-panel>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <p-panel >
+          <ng-template pTemplate="header">
+            <i class="fa-solid fa-link" style="margin-right: 5px;"></i>
+            <b> Subscriptions </b>
+          </ng-template>
+          <p-table [value]="selectedChannel.subscriptions"  styleClass="p-datatable-lg">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th><span pTooltip="{{'queue_name' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Queue Name </th>
+                    <th><span pTooltip="{{'max_inflight' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Max Inflight</th>
+                    <th><span pTooltip="{{'pending_count' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Pending Count </th>
+                    <th><span pTooltip="{{'ack_wait' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Ack Wait</th>
+                    <th><span pTooltip="{{'last_sent' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Last Sent </th>
+                    <th><span pTooltip="{{'is_drable' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Is Durable </th>
+                    <th><span pTooltip="{{'is_offline' | translate}}"><i class="fa-solid fa-circle-info"></i></span> Is Offline </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-sub>
+                <tr>
+                  <td>{{sub.queue_name}}</td>
+                  
+                    <td ><b>{{sub.max_inflight}}</b></td>
+                    <td [ngStyle]="{'color':sub.pending_count>3 ? 'red' : 'green'}"><b> {{sub.pending_count}}</b></td>
+                    <td>{{sub.ack_wait}}</td>
+                    <td *ngIf="sub.last_sent==selectedChannel.last_seq" [ngStyle]="{'color':'rgb(14, 124, 0)'}"><b>{{sub.last_sent}}</b></td>
+                    <td *ngIf="sub.last_sent!=selectedChannel.last_seq">{{sub.last_sent}}</td>
+                    <td [ngStyle]="{'color':!sub.is_durable ? 'red' : 'green'}" pStyleClass=".box"> 
+                      <p-tag severity="{{sub.is_durable?'success':'danger'}}" value="{{sub.is_durable}}"></p-tag>
+                    </td>
+                    <td [ngStyle]="{'color':!sub.is_offline ? 'red' : 'green'}" pStyleClass=".box">
+                      <p-tag severity="{{sub.is_offline?'success':'danger'}}" value="{{sub.is_offline}}"></p-tag>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </p-panel>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Set Time Period / Max Pending Count" [(visible)]="display">
+  <div class="p-inputgroup">
+    <span class="p-inputgroup-addon">Repeat Interval (seconds)</span>
+    <input type="number" pInputText placeholder="3" [(ngModel)]="secondPeriod">
+  </div>
+  <br>
+  <div class="p-inputgroup">
+    <span class="p-inputgroup-addon">Alert Max Pending Count </span>
+    <input type="number" pInputText placeholder="3" [(ngModel)]="maxPendingCount">
+  </div>
+  <br>
+  <p-button (onClick)="setTimer(secondPeriod,maxPendingCount)" icon="fa-solid fa-save" label="Save"></p-button>
+</p-dialog>
