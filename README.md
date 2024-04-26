@@ -10,7 +10,7 @@ To install the project, follow these steps:
 2. Navigate to the project directory: `cd nats-ui`
 3. Install the dependencies: `npm install`
 4. Add your own NATS Streaming address as shown below in the urls.
-```json
+```
 ..src/assets/urls.json
 [
     
