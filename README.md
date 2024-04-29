@@ -42,7 +42,10 @@ To use Docker for running the project, follow these steps:
     ```bash
     docker run --env-file .env -p 4200:80 -d defactotechnology/nats-ui:tagname
     ```
+## Screens
 
+![Serverz](screenshot/1.png)
+![Serverz](screenshot/3.png)
 
 ## Contributing
 
