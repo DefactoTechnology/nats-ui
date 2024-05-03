@@ -63,10 +63,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "nats-ui:build:production"
+              "buildTarget": "nats-ui:build:production"
             },
             "development": {
-              "browserTarget": "nats-ui:build:development"
+              "buildTarget": "nats-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +74,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "nats-ui:build"
+            "buildTarget": "nats-ui:build"
           }
         },
         "test": {
